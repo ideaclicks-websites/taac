@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You | TAAC 2026</title>
+<meta name="description" content="Thank you for registering for The Agentic AI Confluence (TAAC).">
+<style>
+:root{
+  --brand:#398fa1;
+  --brand-light:#55b4c5;
+  --brand-dark:#246a79;
+  --bg:#061217;
+  --bg2:#0a1d23;
+  --card:rgba(10,31,38,.82);
+  --line:rgba(57,143,161,.28);
+  --text:#f4fbfc;
+  --muted:#a9c1c6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 15%,rgba(57,143,161,.20),transparent 31%),
+    radial-gradient(circle at 88% 20%,rgba(85,180,197,.12),transparent 27%),
+    radial-gradient(circle at 50% 100%,rgba(36,106,121,.18),transparent 35%),
+    var(--bg);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.3;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:42px 42px;
+}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:.22}
+.orb.one{width:230px;height:230px;background:var(--brand);top:5%;left:-90px}
+.orb.two{width:250px;height:250px;background:var(--brand-light);right:-110px;bottom:5%}
+.page{
+  width:min(1080px,92%);min-height:100vh;margin:auto;
+  display:flex;align-items:center;justify-content:center;
+  padding:50px 0;position:relative;z-index:1;
+}
+.confirmation{
+  width:100%;max-width:850px;text-align:center;padding:58px 55px;
+  border:1px solid var(--line);border-radius:30px;
+  background:linear-gradient(145deg,rgba(12,37,45,.94),rgba(5,18,23,.9));
+  box-shadow:0 30px 100px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);animation:rise .8s ease both;
+}
+.brand{
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:34px;
+  font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#dceff2;
+}
+.brand-mark{
+  width:35px;height:35px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+  box-shadow:0 8px 30px rgba(57,143,161,.35);
+}
+.check{
+  width:94px;height:94px;margin:0 auto 27px;border-radius:50%;
+  display:grid;place-items:center;font-size:45px;font-weight:700;
+  color:#dffcff;background:rgba(57,143,161,.13);
+  border:1px solid rgba(85,180,197,.55);
+  box-shadow:0 0 55px rgba(57,143,161,.24);
+  animation:pop .7s .15s ease both;
+}
+.eyebrow{
+  color:#66c1cf;font-size:13px;font-weight:800;letter-spacing:2.5px;
+  text-transform:uppercase;margin-bottom:13px;
+}
+h1{
+  font-size:clamp(1.6rem,4.2vw,2.9rem);
+  white-space:normal;
+  line-height:1.25;
+  letter-spacing:-1px;
+  margin:0 0 28px;
+  padding-bottom:.15em;
+  overflow-wrap:break-word;
+  word-break:normal;
+  text-align:center;
+  background:linear-gradient(90deg,#fff 20%,#9edce5 58%,#55b4c5 95%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.lead{max-width:700px;margin:auto;color:var(--muted);font-size:18px;line-height:1.75}
+.lead strong{color:#e3f7fa}
+.event{margin:37px auto 0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.pill{
+  padding:12px 18px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(57,143,161,.07);color:#e5f5f7;font-size:14px;font-weight:700;
+}
+.next{
+  margin:42px auto 0;max-width:670px;padding:28px;text-align:left;
+  border:1px solid rgba(57,143,161,.30);border-radius:22px;
+  background:linear-gradient(135deg,rgba(57,143,161,.10),rgba(57,143,161,.035));
+}
+.next h2{font-size:20px;margin-bottom:10px}
+.next p{color:var(--muted);line-height:1.7}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.step{
+  padding:18px 14px;border:1px solid rgba(57,143,161,.20);border-radius:16px;
+  background:rgba(0,0,0,.13)
+}
+.step span{display:block;font-size:23px;margin-bottom:8px}
+.step strong{font-size:13px}
+.step small{display:block;color:#819aa0;margin-top:5px;line-height:1.45}
+.date{margin-top:42px;padding-top:30px;border-top:1px solid var(--line)}
+.date-label{color:#78949b;font-size:12px;text-transform:uppercase;letter-spacing:2px;font-weight:800}
+.date h3{margin-top:8px;font-size:30px;letter-spacing:-.7px}
+.date p{color:#a9c1c6;margin-top:6px}
+.map-inline{
+  color:#9edce5;font-weight:700;text-decoration:none;
+  transition:.2s ease;
+}
+.map-inline:hover{color:#dffcff}
+.footer{margin-top:30px;color:#607980;font-size:12px}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}
+@media (max-width:1200px){.confirmation{max-width:92%;}}
+@media (max-width:992px){
+.page{padding:40px 20px}
+.confirmation{padding:42px 32px}
+.steps{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:768px){
+.page{padding:20px 15px}
+.confirmation{max-width:100%;padding:30px 20px;border-radius:22px}
+h1{font-size:clamp(1.4rem,6vw,2.1rem)}
+.event{flex-direction:column;align-items:stretch}
+.pill{width:100%;max-width:none}
+.steps{grid-template-columns:1fr}
+.next{max-width:100%;padding:20px}
+.brand{justify-content:center;flex-wrap:wrap;text-align:center}
+}
+@media (max-width:480px){
+.confirmation{padding:24px 16px}
+h1{font-size:1.35rem;line-height:1.3}
+.lead{font-size:15px}
+.check{width:72px;height:72px;font-size:34px}
+}
+</style>
+
+<style>
+  .confirmation{position:relative;overflow:hidden}
+  .confirmation:before,.confirmation:after{
+    content:"";position:absolute;border:1px solid rgba(57,143,161,.12);
+    border-radius:50%;pointer-events:none
+  }
+  .confirmation:before{width:340px;height:340px;left:-220px;top:-150px}
+  .confirmation:after{width:300px;height:300px;right:-200px;bottom:-170px}
+  .brand-mark{position:relative}
+  .brand-mark:after{
+    content:"";position:absolute;inset:-5px;border-radius:14px;
+    border:1px solid rgba(85,180,197,.18)
+  }
+  .check{position:relative}
+  .check:after{
+    content:"";position:absolute;inset:-10px;border-radius:50%;
+    border:1px dashed rgba(85,180,197,.35);animation:spin 18s linear infinite
+  }
+  .next{position:relative}
+  .next:after{
+    content:"";position:absolute;width:80px;height:80px;right:28px;top:22px;
+    border:1px solid rgba(57,143,161,.12);border-radius:50%;pointer-events:none
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="orb one"></div><div class="orb two"></div>
+<main class="page">
+<section class="confirmation">
+  <!-- <div class="brand"><div class="brand-mark">✦</div> TAAC · The Agentic AI Confluence</div> -->
+  <div class="check">✓</div>
+  <h1>Thank You, Registration Received</h1>
+  <!-- <p class="lead">
+    Your registration for <strong>The Agentic AI Confluence (TAAC)</strong>
+    has been successfully received. We're excited to have you join us.
+  </p> -->
+  <!-- <div class="event">
+    <div class="pill">📅 5 September 2026</div>
+    <div class="pill">📍 Wakad, Pune</div>
+    <div class="pill">🤖 Agentic AI</div>
+  </div> -->
+  <div class="next">
+    <h2>💳 What happens next?</h2>
+    <p>
+Once your <strong>payment is verified</strong>, 
+      your registration will be confirmed and you will receive all <strong>
+        event updates, important announcements, and event-related communication via email</strong>.
+    </p>
+    <!-- <div class="steps">
+      <div class="step"><span>📝</span><strong>Registration Received</strong><small>Your registration details are safely received.</small></div>
+      <div class="step"><span>✓</span><strong>Payment Verification</strong><small>Your payment will be verified by the team.</small></div>
+      <div class="step"><span>💬</span><strong>WhatsApp Group</strong><small>You'll receive the official group invite.</small></div>
+    </div> -->
+  </div>
+  <div class="date">
+    <!-- <div class="date-label">Save the date</div> -->
+    <h3>See you at TAAC! 🚀</h3>
+    <p>5 September 2026 · The Agentic AI Confluence</p>
+    <p>📍 <a class="map-inline" href="https://maps.google.com/?q=Wakad+Business+Bay,+Pune" target="_blank" rel="noopener">Wakad Business Bay, Pune</a></p>
+  </div>
+  <div class="footer">© 2026 The Agentic AI Confluence · Organized by IdeaClicks® and Anugamana</div>
+</section>
+</main>
+</body>
+</html>

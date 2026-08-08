@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAAC Registration</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+  color:#fff;
+  background:#050816;
+  background-image:
+    radial-gradient(circle at 15% 15%,rgba(58,216,237,0.28),transparent 32%),
+    radial-gradient(circle at 85% 20%,rgba(6,182,212,.20),transparent 30%),
+    radial-gradient(circle at 50% 100%,rgba(70,200,239,0.15),transparent 35%);
+}
+
+.taac-form{
+  width:100%;
+  max-width:600px;
+  padding:42px;
+  position:relative;
+  border:1px solid rgba(92,210,246,0.45);
+  border-radius:26px;
+  background:rgba(10,32,36,0.96);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.55),
+    0 0 60px rgba(58,201,237,0.12);
+}
+
+.taac-form:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:26px;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(92,246,246,0.1),
+      transparent 45%,
+      rgba(34,211,238,.07)
+    );
+}
+
+.taac-form>*{
+  position:relative
+}
+
+.taac-kicker{
+  display:inline-block;
+  padding:8px 13px;
+  border:1px solid rgba(92,215,246,0.45);
+  border-radius:999px;
+  color:#b5f8fd;
+  background:rgba(92,223,246,0.1);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.4px;
+}
+
+.taac-title{
+  margin:20px 0 10px;
+  font-size:42px;
+  line-height:1.05;
+  letter-spacing:-1.5px;
+}
+
+.taac-title span{
+  color:#8be0fa;
+}
+
+.taac-subtitle{
+  margin:0 0 28px;
+  color:#9cc4c7;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.taac-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.taac-field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.taac-field.full{
+  grid-column:1/-1;
+}
+
+.taac-field label{
+  font-size:13px;
+  font-weight:600;
+  color:#e5ebeb;
+}
+
+.taac-field input,
+.taac-field select{
+  width:100%;
+  height:52px;
+  padding:0 15px;
+  border:1px solid #27424a;
+  border-radius:12px;
+  outline:0;
+  background:#112a2d;
+  color:#fff;
+  font-size:14px;
+}
+
+.taac-field input::placeholder{
+  color:#65858f;
+}
+
+.taac-field input:focus,
+.taac-field select:focus{
+  border-color:#5ce4f6;
+  box-shadow:0 0 0 3px rgba(92,246,246,0.16);
+}
+
+.taac-field select option{
+  background:#112a2d;
+  color:#fff;
+}
+
+/* Conditional fields */
+.conditional-field{
+  display:none;
+  grid-column:1/-1;
+}
+
+.taac-submit{
+  width:100%;
+  height:56px;
+  margin-top:24px;
+  border:0;
+  border-radius:13px;
+  color:#fff;
+  background:
+    linear-gradient(
+      100deg,
+      #3ad8ed,
+      #5cd7f6 48%,
+      #06b6d4
+    );
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 12px 30px rgba(58,237,228,0.28);
+  transition:.2s ease;
+}
+
+.taac-submit:hover{
+  filter:brightness(1.1);
+  transform:translateY(-1px);
+}
+
+.taac-note{
+  margin:17px 0 0;
+  text-align:center;
+  color:#687493;
+  font-size:11px;
+}
+
+@media(max-width:600px){
+
+  body{
+    padding:20px 12px;
+  }
+
+  .taac-form{
+    padding:28px 20px;
+  }
+
+  .taac-grid{
+    grid-template-columns:1fr;
+  }
+
+  .taac-field.full,
+  .conditional-field{
+    grid-column:auto;
+  }
+
+  .taac-title{
+    font-size:32px;
+  }
+}
+
+/* =========================================
+   TWO-STEP REGISTRATION + PAYMENT
+   ========================================= */
+.form-step{display:block}
+.form-step.hidden{display:none}
+
+.taac-step-header{
+  margin:0 0 24px;
+  padding:18px 20px;
+  border:1px solid rgba(92,215,246,.28);
+  border-radius:16px;
+  background:rgba(92,223,246,.06);
+}
+
+.taac-step-header h2{
+  margin:0 0 7px;
+  font-size:24px;
+  color:#fff;
+}
+
+.taac-step-header p{
+  margin:0;
+  color:#9cc4c7;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.taac-payment-card{
+  padding:22px;
+  border:1px solid #27424a;
+  border-radius:18px;
+  background:#0d2529;
+  margin-bottom:20px;
+}
+
+.taac-payment-card h3{
+  margin:0 0 12px;
+  font-size:19px;
+  color:#fff;
+}
+
+.taac-payment-card p{
+  margin:7px 0;
+  color:#c6dddd;
+  font-size:13px;
+  line-height:1.65;
+}
+
+.taac-amount{
+  margin:16px 0 20px;
+  padding:16px;
+  text-align:center;
+  border:1px solid rgba(92,228,246,.35);
+  border-radius:14px;
+  background:rgba(92,228,246,.07);
+}
+
+.taac-amount span{
+  display:block;
+  color:#9cc4c7;
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.taac-amount strong{
+  font-size:32px;
+  color:#8be0fa;
+}
+
+.taac-qr-wrap{
+  text-align:center;
+  margin:18px 0 22px;
+}
+
+.taac-qr{
+  width:min(100%,360px);
+  max-height:420px;
+  object-fit:contain;
+  border-radius:12px;
+  background:#fff;
+  padding:10px;
+  display:block;
+  margin:0 auto 12px;
+}
+
+.taac-qr-caption{
+  color:#9cc4c7;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.taac-payment-details{
+  display:grid;
+  gap:9px;
+  margin-top:15px;
+}
+
+.taac-detail{
+  padding:11px 13px;
+  border-radius:10px;
+  background:#112a2d;
+  color:#dce9e9;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.taac-detail strong{
+  color:#fff;
+}
+
+.taac-detail.upi-highlight{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px 16px;
+  border:1px solid rgba(92,228,246,.45);
+  border-radius:12px;
+  background:rgba(92,228,246,.1);
+  box-shadow:0 0 0 1px rgba(92,228,246,.08) inset;
+}
+
+.taac-detail.upi-highlight strong{
+  color:#8be0fa;
+  font-size:14px;
+  letter-spacing:.2px;
+}
+
+.taac-download-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:2px auto 0;
+  padding:9px 18px;
+  border-radius:999px;
+  border:1px solid rgba(92,215,246,.45);
+  background:rgba(92,215,246,.1);
+  color:#8be0fa;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .15s ease,color .15s ease;
+}
+
+.taac-download-btn:hover{
+  background:#5cd7f6;
+  color:#06282b;
+}
+
+.taac-copy-btn{
+  flex-shrink:0;
+  padding:6px 14px;
+  border-radius:999px;
+  border:1px solid rgba(92,215,246,.45);
+  background:rgba(92,215,246,.12);
+  color:#8be0fa;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:background .15s ease,color .15s ease;
+}
+
+.taac-copy-btn:hover{
+  background:#5cd7f6;
+  color:#06282b;
+}
+
+.taac-copy-btn.copied{
+  background:#2FAE6B;
+  border-color:#2FAE6B;
+  color:#fff;
+}
+
+.taac-payment-note{
+  padding:13px;
+  border-left:3px solid #5cd7f6;
+  background:rgba(92,215,246,.06);
+  border-radius:8px;
+  color:#c6dddd;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.taac-file{
+  height:auto !important;
+  padding:13px !important;
+  cursor:pointer;
+}
+
+.taac-file::file-selector-button{
+  margin-right:12px;
+  padding:9px 12px;
+  border:0;
+  border-radius:8px;
+  cursor:pointer;
+  background:#5cd7f6;
+  color:#062126;
+  font-weight:700;
+}
+
+.taac-button-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:24px;
+}
+
+.taac-secondary{
+  width:100%;
+  height:56px;
+  border:1px solid #31545c;
+  border-radius:13px;
+  color:#dce9e9;
+  background:#112a2d;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.taac-secondary:hover{
+  border-color:#5cd7f6;
+}
+
+.taac-submit:disabled,
+.taac-secondary:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.taac-success{
+  display:none;
+  text-align:center;
+  padding:34px 15px 10px;
+}
+
+.taac-success.show{display:block}
+
+.taac-success-icon{
+  font-size:48px;
+  margin-bottom:10px;
+}
+
+.taac-success h2{
+  margin:0 0 10px;
+  font-size:28px;
+}
+
+.taac-success p{
+  color:#9cc4c7;
+  font-size:14px;
+  line-height:1.7;
+  margin:0;
+}
+
+@media(max-width:600px){
+  .taac-button-row{
+    grid-template-columns:1fr;
+  }
+
+  .taac-payment-card{
+    padding:17px;
+  }
+
+  .taac-qr{
+    max-width:100%;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<form
+  class="taac-form"
+  action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DdN00000rM2SB"
+  method="POST"
+>
+<input type="hidden" name="oid" value="00DdN00000rM2SB">
+<input type="hidden" name="retURL" value="https://ideaclicks.ai/TAAC/05sept2026/confirmation.html">
+<input type="hidden" name="lead_source" value="Web">
+<input type="hidden" name="title" value="TAAC Event Antendee">
+
+<input type="hidden" name="00NdN00000XNYVp" value="Unpaid">
+<input type="hidden" name="00NdN00000XMS0H" value="">
+
+<div class="taac-kicker">TAAC · 05 SEP 2026 · PUNE</div>
+<h1 class="taac-title">Reserve Your <span>Spot</span></h1>
+<p class="taac-subtitle">Join The Agentic AI Confluence and build practical AI agents that work for you.</p>
+
+<div class="taac-grid">
+
+<div class="taac-field">
+<label for="first_name">First Name</label>
+<input id="first_name" maxlength="40" name="first_name" type="text" placeholder="Enter your first name" required>
+</div>
+
+<div class="taac-field">
+<label for="last_name">Last Name</label>
+<input id="last_name" maxlength="80" name="last_name" type="text" placeholder="Enter your last name" required>
+</div>
+
+<div class="taac-field full">
+<label for="email">Email Address</label>
+<input id="email" maxlength="80" name="email" type="email" placeholder="you@example.com" required>
+</div>
+
+<div class="taac-field">
+<label for="occupation">Occupation</label>
+<select id="occupation" name="00NdN00000XHdmj" title="Occupation" onchange="handleOccupationChange()" required>
+<option value="">Select occupation</option>
+<option value="Student">Student</option>
+<option value="Employee">Employee</option>
+<option value="Bussiness owner">Bussiness owner</option>
+</select>
+</div>
+
+<div class="taac-field">
+<label for="phone">Phone Number</label>
+<input id="phone" maxlength="40" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" required>
+</div>
+
+<div class="taac-field full">
+<label for="mobile">WhatsApp Number</label>
+<input id="mobile" maxlength="40" name="mobile" type="tel" placeholder="+91 XXXXX XXXXX" required>
+</div>
+
+<div class="taac-field conditional-field" id="companyGroup">
+<label for="company">Company</label>
+<input id="company" maxlength="40" name="company" type="text" placeholder="Enter your company name">
+</div>
+
+<div class="taac-field conditional-field" id="designationGroup">
+<label for="designation">Designation</label>
+<input id="designation" maxlength="100" name="00NdN00000ZPhaH" type="text" placeholder="e.g. Manager, Developer, CEO">
+</div>
+
+<div class="taac-field full">
+<label for="aiProficiency">How would you describe your current proficiency in AI?</label>
+<select id="aiProficiency" name="00NdN00000ZPjIj" title="Proficiency in AI" onchange="handleAIProficiencyChange()" required>
+<option value="">Select your AI proficiency</option>
+<option value="Beginner">Beginner – little to no hands-on experience with AI tools</option>
+<option value="Intermediate">Intermediate – use AI tools regularly (e.g., ChatGPT, Copilot) in daily work</option>
+<option value="Advanced">Advanced – build or fine-tune AI models/solutions</option>
+<option value="Expert">Expert – deep technical expertise (research, ML engineering, etc.)</option>
+<option value="Other">Other (please specify)</option>
+</select>
+</div>
+
+<div class="taac-field conditional-field" id="aiOtherGroup">
+<label for="aiOther">Please specify your AI proficiency</label>
+<input id="aiOther" maxlength="100" name="00NdN00000ZPjLx" type="text" placeholder="Please specify">
+</div>
+
+<div class="taac-field full">
+<label for="eventInterest">What best describes your interest in attending this event?</label>
+<select id="eventInterest" name="00NdN00000ZPiks" title="Event Interest" onchange="handleEventInterestChange()" required>
+<option value="">Select your interest</option>
+<option value="Just curious">Just curious – exploring what AI is about</option>
+<option value="Networking">Networking – want to connect with AI professionals/community</option>
+<option value="Learning">Learning – want to gain specific skills or knowledge</option>
+<option value="Business opportunity">Business opportunity – exploring AI for my company/use case</option>
+<option value="Speaker/Contributor interest">Speaker/Contributor interest – want to present or contribute</option>
+<option value="Other">Other (please specify)</option>
+</select>
+</div>
+
+<div class="taac-field conditional-field" id="eventOtherGroup">
+<label for="eventOther">Please specify your interest</label>
+<input id="eventOther" maxlength="255" name="00NdN00000ZPjiX" type="text" placeholder="Please specify">
+</div>
+
+</div>
+
+<div class="taac-field full" style="margin-top:20px;margin-bottom:20px;"><label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;line-height:1.6;"><input type="checkbox" required style="margin-top:4px;width:18px;height:18px;"><span>I will bring my own laptop (with charger) to attend the hands-on sessions.</span></label></div><div class="taac-payment-card">
+<div class="taac-step-header">
+<h2>Complete Your Registration – Payment of ₹200</h2>
+<p>Pay ₹200 using the QR code or an alternative payment method below. After payment, enter your UPI transaction ID.</p>
+</div>
+
+<div class="taac-amount"><span>Registration Fee</span><strong>₹200</strong></div>
+
+<div class="taac-qr-wrap">
+<img class="taac-qr" src="img/QRimage.jpeg" alt="IdeaClicks UPI payment QR code" id="taacQrImage">
+<div class="taac-qr-caption">Scan the QR code using any UPI app (Google Pay, PhonePe, Paytm, BHIM, etc.)</div>
+<button type="button" class="taac-download-btn" id="taacDownloadQrBtn">⬇ Download QR</button>
+</div>
+
+<h3>Alternative Payment Methods</h3>
+<div class="taac-payment-details">
+<div class="taac-detail upi-highlight"><strong>UPI ID: <span class="taac-copy-value" id="taacUpiId">ideaclicks-pmt@ibl</span></strong><button type="button" class="taac-copy-btn" data-copy-target="taacUpiId" aria-label="Copy UPI ID">Copy</button></div>
+<div class="taac-detail upi-highlight"><strong>UPI No: <span class="taac-copy-value" id="taacUpiNo">+91 9890 979 074</span></strong><button type="button" class="taac-copy-btn" data-copy-target="taacUpiNo" aria-label="Copy UPI number">Copy</button></div>
+<!-- <div class="taac-detail"><strong>Account Name:</strong> IdeaClicks</div> -->
+<!-- <div class="taac-detail"><strong>Bank Name:</strong> HDFC Bank</div> -->
+<!-- <div class="taac-detail"><strong>Branch:</strong> Bhusari Colony, Paud Road</div> -->
+<!-- <div class="taac-detail"><strong>Account Number:</strong> 50200073081640</div> -->
+<!-- <div class="taac-detail"><strong>IFSC Code:</strong> HDFC0004774</div> -->
+<!-- <div class="taac-detail"><strong>SWIFT Code:</strong> HDFCINBB</div> -->
+</div>
+<div class="taac-payment-note"><strong>Important:</strong><br>After completing the payment, please enter your <strong>UPI Transaction ID</strong> in the required field below.<br>Your registration will be verified using this <strong>UPI Transaction ID</strong>.</div>
+</div>
+
+<div class="taac-field full" style="margin-top:20px;">
+<label for="transaction_id">UPI Transaction ID</label>
+<!-- <input id="transaction_id" maxlength="100" type="text" placeholder="Enter your transaction ID / UTR number" required> -->
+<input  id="00NdN00000ZSrNt" maxlength="255" name="00NdN00000ZSrNt" size="20" type="text" placeholder="Enter your transaction ID / UTR number" required/>
+</div>
+
+<!-- <div class="taac-field full" style="margin-top:18px;">
+<label for="payment_screenshot">Upload Payment Screenshot *</label>
+<textarea  id="00NdN00000ZTvl7UAD" name="00NdN00000ZTvl7UAD" rows="25" type="text" wrap="soft"></textarea>
+<input id="00NdN00000ZTvl7UAD" class="taac-file" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" required>
+<small style="color:#78969d;line-height:1.5;">Upload a clear screenshot showing the successful ₹199 payment. Maximum 5 MB.</small>
+</div> -->
+
+
+<input type="hidden" id="description" name="description" value="">
+
+<button class="taac-submit" type="submit" name="submit">Submit Registration&nbsp; →</button>
+<p class="taac-note">Your registration details are submitted through Salesforce. Payment will be verified manually.</p>
+
+</form>
+
+
+<script>
+function handleOccupationChange(){
+  const v=document.getElementById("occupation").value;
+  const cg=document.getElementById("companyGroup"), dg=document.getElementById("designationGroup");
+  const c=document.getElementById("company"), d=document.getElementById("designation");
+  cg.style.display="none"; dg.style.display="none"; c.required=false; d.required=false;
+  if(v==="Employee"){cg.style.display="flex";dg.style.display="flex";c.required=true;d.required=true}
+  else if(v==="Bussiness owner"){cg.style.display="flex";c.required=true}
+}
+function handleAIProficiencyChange(){
+  const v=document.getElementById("aiProficiency").value, g=document.getElementById("aiOtherGroup"), i=document.getElementById("aiOther");
+  if(v==="Other"){g.style.display="flex";i.required=true}else{g.style.display="none";i.required=false;i.value=""}
+}
+function handleEventInterestChange(){
+  const v=document.getElementById("eventInterest").value, g=document.getElementById("eventOtherGroup"), i=document.getElementById("eventOther");
+  if(v==="Other"){g.style.display="flex";i.required=true}else{g.style.display="none";i.required=false;i.value=""}
+}
+
+document.querySelectorAll(".taac-copy-btn").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    const el = document.getElementById(btn.getAttribute("data-copy-target"));
+    if(!el) return;
+    const text = el.textContent.trim();
+    function showCopied(){
+      const original = btn.textContent;
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(function(){ btn.textContent = original; btn.classList.remove("copied"); }, 1600);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(showCopied);
+    } else {
+      const temp = document.createElement("textarea");
+      temp.value = text;
+      temp.style.position = "fixed";
+      temp.style.opacity = "0";
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+      showCopied();
+    }
+  });
+});
+
+const taacDownloadQrBtn = document.getElementById("taacDownloadQrBtn");
+if(taacDownloadQrBtn){
+  taacDownloadQrBtn.addEventListener("click", function(){
+    const img = document.getElementById("taacQrImage");
+    fetch(img.src)
+      .then(function(res){ return res.blob(); })
+      .then(function(blob){
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "TAAC-Payment-QR.jpeg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      })
+      .catch(function(){ window.open(img.src, "_blank"); });
+  });
+}
+
+document.querySelector(".taac-form").addEventListener("submit",function(e){
+  const t=document.getElementById("transaction_id").value.trim();
+  const f=document.getElementById("payment_screenshot").files[0];
+
+  if(!t){e.preventDefault();alert("Please enter your Transaction ID / UTR Number.");return}
+  if(!f){e.preventDefault();alert("Please upload your payment screenshot.");return}
+  if(!["image/png","image/jpeg","image/jpg","image/webp"].includes(f.type)){e.preventDefault();alert("Please upload a PNG, JPG, JPEG, or WEBP screenshot.");return}
+  if(f.size>5*1024*1024){e.preventDefault();alert("Please upload a screenshot smaller than 5 MB.");return}
+
+  document.getElementById("description").value =
+    "TAAC Registration Payment | Amount: ₹199 | Transaction ID / UTR: " +
+    t + " | Payment Status: Unpaid - Pending Manual Verification";
+});
+
+
+document.querySelector(".taac-form").addEventListener("submit", function(e) {
+
+    const txn = document.getElementById("00NdN00000ZSrNt").value.trim();
+
+    if (txn === "") {
+        e.preventDefault();
+        alert("❌ Please enter your UPI Transaction ID.");
+        return;
+    }
+
+    if (txn.length < 12 || txn.length > 35) {
+        e.preventDefault();
+        alert("❌ Invalid Transaction ID.\nPlease check your payment app and enter the correct UPI Transaction ID.");
+        return;
+    }
+
+    if (!/^[A-Za-z0-9]+$/.test(txn)) {
+        e.preventDefault();
+        alert("❌ Transaction ID should contain only letters and numbers.");
+        return;
+    }
+});
+
+</script>
+
+
+
+</body>
+</html>
